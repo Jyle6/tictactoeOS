@@ -1,0 +1,6 @@
+* text=auto eol=lf
+src/* text eol=lf
+*LICENSE* text eol=lf
+*.sh -text diff eol=lf
+README text eol=lf
+makefile text eol=lf

@@ -1,0 +1,6 @@
+# An OS that does one thing, and one thing only: to play TicTacToe
+## FAQ
+ * Why do I see 2 Licenses?
+   - answer: because the build script is licensed under LGPL, but the code (in src/) **is** licensed under **unlicense**
+ * Why is the code unlicense?
+	- answer: because copyrighting an OS that does tic-tac-toe is useless, and this only serves as an example of an OS
