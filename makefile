@@ -13,6 +13,8 @@ out/EFI/BOOT/BOOTX64.EFI: src/*.c
 		-I/usr/x86_64-w64-mingw32/include/efi/x86_64 \
 		src/*.c
 
+build: out/EFI/BOOT/BOOTX64.EFI
+
 .PHONY: setup_devel clean_devel test setup clean
 clean: clean_devel
 setup: setup_devel
