@@ -1,5 +1,5 @@
 out/EFI/BOOT/BOOTX64.EFI: src/*.c
-	x86_64-w64-mingw32-gcc \
+	sudo x86_64-w64-mingw32-gcc \
 		-ffreestanding \
 		-nostdlib \
 		-fno-stack-protector \
@@ -9,7 +9,9 @@ out/EFI/BOOT/BOOTX64.EFI: src/*.c
 		-Wl,--subsystem,10 \
 		-e efi_main \
 		-o out/EFI/BOOT/BOOTX64.EFI \
-		*.c
+		-I/usr/x86_64-w64-mingw32/include/efi \
+		-I/usr/x86_64-w64-mingw32/include/efi/x86_64 \
+		src/*.c
 
 .PHONY: setup clean test
 setup: setup_devel.sh
