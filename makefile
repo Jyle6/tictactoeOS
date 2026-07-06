@@ -1,3 +1,7 @@
+#
+# This is copyrighted under LGPLv3
+# BUILDSCRIPT_LICENSE
+#
 out/EFI/BOOT/BOOTX64.EFI: src/*.c
 	sudo x86_64-w64-mingw32-gcc \
 		-ffreestanding \
