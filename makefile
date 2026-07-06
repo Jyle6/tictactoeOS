@@ -9,7 +9,7 @@ out/EFI/BOOT/BOOTX64.EFI: src/*.c
 		-Wl,--subsystem,10 \
 		-e efi_main \
 		-o out/EFI/BOOT/BOOTX64.EFI \
-		kernel.c
+		*.c
 
 .PHONY: setup clean test
 setup: setup_devel.sh
