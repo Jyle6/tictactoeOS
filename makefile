@@ -17,8 +17,10 @@ out/EFI/BOOT/BOOTX64.EFI: src/*.c
 setup: setup_devel.sh
 	./$<
 
-clean: clean_devel.sh
-	./$<
+clean:
+	sudo umount out/
+	rm -f disk
+	rmdir out
 
 test: test.sh
 	./$<
