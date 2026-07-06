@@ -14,14 +14,16 @@ void* memcpy(void* dest, const void* src, UINTN n) {
     return dest;
 }
 #define auto __auto_type
+#define color UINT32
+void blit(char c, UINT32**vram);
 
 EFI_STATUS efi_main(EFI_HANDLE imagehandle, EFI_SYSTEM_TABLE *systemtable) {
 	EFI_GRAPHICS_OUTPUT_PROTOCOL* gop;
 	systemtable->BootServices->LocateProtocol(&(EFI_GUID)EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID, NULL, (VOID*)&gop);
 	auto mode = *gop->Mode;
 	auto minfo = *mode.Info;
-	UINT32* vram;
-	UINT32* fb = (UINT32*)mode.FrameBufferBase;
+	color* vram;
+	color* fb = (color*)mode.FrameBufferBase;
 	UINTN fb_size = mode.FrameBufferSize;
 	UINTN memsize = (fb_size + 4095) / 4096;
 	systemtable->BootServices->AllocatePages(AllocateAnyPages, EfiLoaderData, memsize, (EFI_PHYSICAL_ADDRESS*)&vram);
