@@ -2,3 +2,4 @@ out/*
 disk
 *compile_commands*
 vars.fd
+src/font8x8.h

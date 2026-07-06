@@ -3,6 +3,7 @@
 #include <efi/efierr.h>
 #include <efi/efiprot.h>
 #include <efi/x86_64/efibind.h>
+#include "font8x8.h"
 
 void* memcpy(void* dest, const void* src, UINTN n) {
     char* d = (char*)dest;
@@ -12,15 +13,16 @@ void* memcpy(void* dest, const void* src, UINTN n) {
     }
     return dest;
 }
+#define auto __auto_type
 
 EFI_STATUS efi_main(EFI_HANDLE imagehandle, EFI_SYSTEM_TABLE *systemtable) {
 	EFI_GRAPHICS_OUTPUT_PROTOCOL* gop;
-	EFI_GRAPHICS_OUTPUT_PROTOCOL_MODE gopmode;
 	systemtable->BootServices->LocateProtocol(&(EFI_GUID)EFI_GRAPHICS_OUTPUT_PROTOCOL_GUID, NULL, (VOID*)&gop);
-	gopmode = *gop->Mode;
+	auto mode = *gop->Mode;
+	auto minfo = *mode.Info;
 	UINT32* vram;
-	UINT32* fb = (UINT32*)gopmode.FrameBufferBase;
-	UINTN fb_size = gopmode.FrameBufferSize;
+	UINT32* fb = (UINT32*)mode.FrameBufferBase;
+	UINTN fb_size = mode.FrameBufferSize;
 	UINTN memsize = (fb_size + 4095) / 4096;
 	systemtable->BootServices->AllocatePages(AllocateAnyPages, EfiLoaderData, memsize, (EFI_PHYSICAL_ADDRESS*)&vram);
 	for (UINTN i = 0; i < (fb_size / sizeof(UINT32)); i++) {
@@ -28,7 +30,8 @@ EFI_STATUS efi_main(EFI_HANDLE imagehandle, EFI_SYSTEM_TABLE *systemtable) {
     }
 	__builtin_memcpy(fb, vram, fb_size);
 	while (TRUE) {
-		__asm__("hlt");
+		__asm__ volatile ("cli");
+		__asm__ volatile("hlt");
 	}
 	systemtable->BootServices->FreePages((EFI_PHYSICAL_ADDRESS)vram, memsize);
 	return EFI_SUCCESS;

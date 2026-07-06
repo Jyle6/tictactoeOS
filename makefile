@@ -2,7 +2,7 @@
 # This is copyrighted under LGPLv3
 # BUILDSCRIPT_LICENSE
 #
-out/EFI/BOOT/BOOTX64.EFI: src/*.c
+out/EFI/BOOT/BOOTX64.EFI: src/main.c src/font8x8.h
 	sudo x86_64-w64-mingw32-gcc \
 		-ffreestanding \
 		-nostdlib \
@@ -18,6 +18,12 @@ out/EFI/BOOT/BOOTX64.EFI: src/*.c
 		src/*.c
 
 build: out/EFI/BOOT/BOOTX64.EFI
+
+src/font8x8.h: 
+	curl -L https://raw.githubusercontent.com/dhepper/font8x8/refs/heads/master/font8x8_basic.h -o src/font8x8.h
+	if ! grep '/\*\*'; then \
+		exit 1 \
+	fi 
 
 .PHONY: setup_devel clean_devel test setup clean
 clean: clean_devel
